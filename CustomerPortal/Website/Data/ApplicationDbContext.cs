@@ -21,7 +21,7 @@ namespace Website.Data
         public DbSet<CompanyClaims> CompanyClaims { get; set; }
 
 
-        public DbSet<CompanyUser> CompanyUsers { get; set; }
+        
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -30,16 +30,22 @@ namespace Website.Data
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
 
+            builder.Entity<ApplicationUser>(au =>
+            {
+                au.HasOne(c => c.MyCompany).WithMany(cu => cu.Users).HasForeignKey(ccu => ccu.CompanyId).IsRequired();
+            });
+
             builder.Entity<Company>(c =>
             {
                 c.HasIndex(u => u.CreatedTime).HasName("CreationTimeIndex");
                 c.Property(u => u.CreatedTime).HasDefaultValueSql("getdate()");
-                //c.HasMany(cc => cc.Claims).WithOne().HasForeignKey(ccc => ccc.ComapnayId).IsRequired();
+                c.HasMany(au => au.Users).WithOne(auc => auc.MyCompany).HasForeignKey(aucc => aucc.CompanyId).IsRequired();
+                c.HasMany(au => au.Claims).WithOne(auc => auc.Company).HasForeignKey(aucc => aucc.CompanyId).IsRequired();
             });
 
             builder.Entity<CompanyClaims>(cc =>
             {
-
+                cc.HasOne(ccc => ccc.Company).WithMany(cccc => cccc.Claims).HasForeignKey(aucc => aucc.CompanyId).IsRequired();
             });
             //b.HasMany(r => r.Users).WithOne().HasForeignKey(ur => ur.RoleId).IsRequired();
         }

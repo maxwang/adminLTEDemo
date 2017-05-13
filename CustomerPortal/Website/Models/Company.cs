@@ -25,6 +25,7 @@ namespace Website.Models
 
         public string CreatedBy { get; set; }
 
+        public List<ApplicationUser> Users { get; set; }
         public List<CompanyClaims> Claims { get; set; }
     }
 }

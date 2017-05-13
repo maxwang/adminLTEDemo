@@ -14,6 +14,7 @@ using Website.Models;
 using Website.Services;
 using Microsoft.AspNetCore.Authentication;
 using Website.Extensions;
+using Microsoft.AspNetCore.Identity;
 
 namespace Website
 {
@@ -53,16 +54,23 @@ namespace Website
 
                 })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddUserStore<SMSUserStore<ApplicationUser>>()
+                .AddUserManager<SMSUserManager<ApplicationUser>>()
                 .AddDefaultTokenProviders();
+
+
+            services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, SMSClaimsPrincipalFactory>();
+            //services.AddScoped<SMSUserManager<ApplicationUser>>();
 
             services.AddMvc();
 
             //
-            services.AddTransient<IClaimsTransformer, SMSClaimsTransformer>();
+            //services.AddTransient<IClaimsTransformer, SMSClaimsTransformer>();
 
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -87,11 +95,11 @@ namespace Website
             app.UseIdentity();
 
             // Add external authentication middleware below. To configure them please see https://go.microsoft.com/fwlink/?LinkID=532715
-            app.UseClaimsTransformation(async (context) =>
-            {
-                IClaimsTransformer transformer = context.Context.RequestServices.GetRequiredService<IClaimsTransformer>();
-                return await transformer.TransformAsync(context);
-            });
+            //app.UseClaimsTransformation(async (context) =>
+            //{
+            //    IClaimsTransformer transformer = context.Context.RequestServices.GetRequiredService<IClaimsTransformer>();
+            //    return await transformer.TransformAsync(context);
+            //});
 
 
             app.UseMvc(routes =>

@@ -15,8 +15,6 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css" />
         <link rel="stylesheet" href="~/lib/adminLTE/css/AdminLTE.css" />
         <link rel="stylesheet" href="~/lib/adminLTE/css/skins/skin-blue.css" />
-        <link rel="stylesheet" href="~/css/site.css" />
-        
     </environment>
     <environment names="Staging,Production">
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -33,26 +31,22 @@
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
         <link rel="stylesheet" href="~/lib/adminLTE/css/AdminLTE.min.css" asp-append-version="true" />
         <link rel="stylesheet" href="~/lib/adminLTE/css/skins/skin-blue.min.css" asp-append-version="true" />
-        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     </environment>
     @Html.Raw(JavaScriptSnippet.FullScript)
 </head>
-<body class="skin-blue fixed">
-    <div class="wrapper" style="height:auto;">
-        <header class="main-header">
-            <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">
-                <span class="logo-mini">SMS</span>
-                <span class="logo-lg"><b>SMS</b> Portal</span>
-            </a>
-        </header>
-        @RenderBody()
+<body class="hold-transition skin-blue sidebar-mini">
+    <div class="wrapper">
+        @await Html.PartialAsync("_DefaultHeader")
+        @await Html.PartialAsync("_LeftSidebar")
+        <div class="content-wrapper">
+            @RenderBody()
+        </div>
+        @await Html.PartialAsync("_Footer")
     </div>
-
     <environment names="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
         <script src="~/lib/adminLTE/js/app.js"></script>
-        <script src="~/js/site.js" asp-append-version="true"></script>
     </environment>
     <environment names="Staging,Production">
         <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
@@ -68,7 +62,6 @@
                 integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
         </script>
         <script src="~/lib/adminLTE/js/app.min.js"></script>
-        <script src="~/js/site.min.js" asp-append-version="true"></script>
     </environment>
 
     @RenderSection("Scripts", required: false)

@@ -8,9 +8,10 @@ using Website.Data;
 namespace Website.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170512174942_ChangeUserCompanyReleationDefination")]
+    partial class ChangeUserCompanyReleationDefination
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
@@ -130,8 +131,6 @@ namespace Website.Data.Migrations
 
                     b.Property<int>("AccessFailedCount");
 
-                    b.Property<int?>("CompanyId");
-
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 
@@ -160,12 +159,12 @@ namespace Website.Data.Migrations
 
                     b.Property<bool>("TwoFactorEnabled");
 
+                    b.Property<int?>("UserId");
+
                     b.Property<string>("UserName")
                         .HasMaxLength(256);
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CompanyId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasName("EmailIndex");
@@ -173,6 +172,8 @@ namespace Website.Data.Migrations
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
                         .HasName("UserNameIndex");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("AspNetUsers");
                 });
@@ -217,6 +218,23 @@ namespace Website.Data.Migrations
                     b.ToTable("CompanyClaims");
                 });
 
+            modelBuilder.Entity("Website.Models.CompanyUser", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("CompanyId");
+
+                    b.Property<string>("UserId")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CompanyId");
+
+                    b.ToTable("CompanyUsers");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole")
@@ -256,15 +274,23 @@ namespace Website.Data.Migrations
 
             modelBuilder.Entity("Website.Models.ApplicationUser", b =>
                 {
-                    b.HasOne("Website.Models.Company", "MyCompany")
-                        .WithMany("Users")
-                        .HasForeignKey("CompanyId");
+                    b.HasOne("Website.Models.CompanyUser", "MyCompany")
+                        .WithMany("User")
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Website.Models.CompanyClaims", b =>
                 {
                     b.HasOne("Website.Models.Company", "Company")
                         .WithMany("Claims")
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Website.Models.CompanyUser", b =>
+                {
+                    b.HasOne("Website.Models.Company", "Comapny")
+                        .WithMany()
                         .HasForeignKey("CompanyId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
