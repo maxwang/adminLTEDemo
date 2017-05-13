@@ -36,13 +36,16 @@
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
     <div class="wrapper">
-        @await Html.PartialAsync("_DefaultHeader")
-        @await Html.PartialAsync("_LeftSidebar")
-        <div class="content-wrapper">
-            @RenderBody()
-        </div>
-        @await Html.PartialAsync("_Footer")
-    </div>
+        <header class="main-header">
+            @await Html.PartialAsync("_DefaultHeader")
+            @await RenderSectionAsync("TopNav", required: false)
+        </header>
+            @await Html.PartialAsync("_LeftSidebar")
+            <div class="content-wrapper">
+                @RenderBody()
+            </div>
+            @await Html.PartialAsync("_Footer")
+</div>
     <environment names="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>

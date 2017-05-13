@@ -15,6 +15,7 @@ using Website.Services;
 using Microsoft.AspNetCore.Authentication;
 using Website.Extensions;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Website
 {
@@ -58,11 +59,18 @@ namespace Website
                 .AddUserManager<SMSUserManager<ApplicationUser>>()
                 .AddDefaultTokenProviders();
 
+            //services.AddSingleton<IAuthorizationHandler, ClaimRequireAuthorizationRequireHandler>();
+
+            services.AddSingleton<IAuthorizationPolicyProvider, ClaimAuthorizePolicyProvider>();
 
             services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, SMSClaimsPrincipalFactory>();
-            //services.AddScoped<SMSUserManager<ApplicationUser>>();
 
-            services.AddMvc();
+            //services.AddScoped<AuthorizeClaimFilter>();
+            
+            services.AddMvc(options =>
+            {
+                //options.Filters.Add(typeof(AuthorizeClaimFilter));
+            });
 
             //
             //services.AddTransient<IClaimsTransformer, SMSClaimsTransformer>();

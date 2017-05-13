@@ -4,22 +4,11 @@
         <ul class="sidebar-menu">
             <li class="header">MAIN NAVIGATION</li>
             
-            @await  Html.PartialAsync("_ModelBitDefender")
-            @await Html.PartialAsync("_ModelZohoCRM")
+            @await Html.PartialAsync("_ModuleBitDefender")
+            @await Html.PartialAsync("_ModuleZohoCRM")
             @await Html.PartialAsync("_ModuleSMSPersonal")
-
+            @await Html.PartialAsync("_ModuleTools")
             
-
-            @if(User.HasClaim("CustomerPortal.Module", "Tools"))
-            {
-                <li class="treeview">
-                    <a href="#">
-                        <i class="fa fa-edit"></i> <span>Tools</span>
-                        <span class="pull-right-container">
-                        </span>
-                    </a>
-                </li>
-            }
         </ul>
     </section>
 </aside>
