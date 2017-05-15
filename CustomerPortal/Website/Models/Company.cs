@@ -12,6 +12,7 @@ namespace Website.Models
     public class Company
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         [MaxLength(255)]
