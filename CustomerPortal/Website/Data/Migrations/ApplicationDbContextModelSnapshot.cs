@@ -130,7 +130,8 @@ namespace Website.Data.Migrations
 
                     b.Property<int>("AccessFailedCount");
 
-                    b.Property<int?>("CompanyId");
+                    b.Property<int?>("CompanyId")
+                        .IsRequired();
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
@@ -196,7 +197,7 @@ namespace Website.Data.Migrations
                     b.HasIndex("CreatedTime")
                         .HasName("CreationTimeIndex");
 
-                    b.ToTable("Companies");
+                    b.ToTable("AspNetCompanies");
                 });
 
             modelBuilder.Entity("Website.Models.CompanyClaims", b =>
@@ -214,7 +215,7 @@ namespace Website.Data.Migrations
 
                     b.HasIndex("CompanyId");
 
-                    b.ToTable("CompanyClaims");
+                    b.ToTable("AspNetCompanyClaims");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>
@@ -258,7 +259,8 @@ namespace Website.Data.Migrations
                 {
                     b.HasOne("Website.Models.Company", "MyCompany")
                         .WithMany("Users")
-                        .HasForeignKey("CompanyId");
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Website.Models.CompanyClaims", b =>

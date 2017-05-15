@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Website.Models
 {
-    [Table("CompanyClaims")]
+    [Table("AspNetCompanyClaims")]
     public class CompanyClaims
     {
         [Key]
