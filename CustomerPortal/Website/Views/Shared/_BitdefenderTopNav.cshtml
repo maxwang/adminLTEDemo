@@ -8,11 +8,11 @@
             <li><a href="#">Products<span class="sr-only">(current)</span></a></li>
             @if (User.HasClaim("CustomerPortal.BitDefender.Menu", "Sales"))
             {
-                <li><a href="#">Sales</a></li>
+                <li><a asp-area="" asp-controller="BitDefender" asp-action="Sales">Sales</a></li>
             }
             @if (User.HasClaim("CustomerPortal.BitDefender.Menu", "Support"))
             {
-                <li><a href="#">Support</a></li>
+                <li><a asp-area="" asp-controller="BitDefender" asp-action="Support">Support</a></li>
             }
             
             <li><a href="#">Contact</a></li>

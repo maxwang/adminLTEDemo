@@ -2,7 +2,7 @@
 @if (User.HasClaim("CustomerPortal.Module", "BitDefender"))
 {
     <li class="treeview">
-        <a href="@Url.Action("Index", "BitDefender")">
+        <a asp-area="" asp-controller="BitDefender" asp-action="Index">
             <i class="fa fa-files-o"></i>
             <span>BitDefender</span>
             <span class="pull-right-container"></span>
